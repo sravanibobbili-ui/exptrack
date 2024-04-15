@@ -10,6 +10,13 @@ import com.bezkoder.spring.jpa.h2.model.Account;
 
 public interface AccountRepository extends JpaRepository<Account, Long> {
 
-	@Query("SELECT a.acct_num,a.acc_bank_name,a.payment_mode,a.branch,a.balance FROM Account a WHERE a.user_id = :userId")
-    List<Object[]> findByUserId(@Param("userId") long userId);
+//	@Query("SELECT a.balance FROM Account a WHERE a.user_id = :userId")
+//    List<Account> findByUserId(@Param("userId") long userId);
+
+//List<Account> findByUserId(long user_id);
+List<Account> findByUserId(long userId);
+
+    
+//    @Query("SELECT a FROM Account a WHERE a.user = :userId")
+//    List<Account> findByUserId(@Param("userId") long userId);
 }

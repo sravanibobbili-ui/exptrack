@@ -19,10 +19,10 @@ public class PaymenthistoryService {
 	@Autowired
 	AccountRepository AccountRepository;
 
-    public void updatePaymentHistory(long userId, long totalExpenses, String date) {
+    public void updatePaymentHistory(long userId, long totalExpenses) {
     System.out.println(userId);
     System.out.println(totalExpenses);
-    System.out.println(date);
+//    System.out.println(date);
         // Retrieve the payment history by user ID
 //        Optional<Paymenthistory> optionalPayment = paymentRepository.findById(userId);
     Paymenthistory payment = paymentRepository.findById(userId).orElse(null);
@@ -32,7 +32,7 @@ public class PaymenthistoryService {
         	payment = new Paymenthistory();
             // Set attributes
             payment.setAmount(totalExpenses);
-            payment.setDate(date); 
+//            payment.setDate(date); 
             // Assuming you have a setUser method in Paymenthistory
             // Also, make sure that this method expects a User object, not just a user ID
              payment.setUser(userId);
@@ -42,7 +42,7 @@ public class PaymenthistoryService {
         }
         else {
         	payment.setAmount(totalExpenses);
-            payment.setDate(date);
+//            payment.setDate(date);
             
             // Save the updated payment history
             paymentRepository.save(payment);

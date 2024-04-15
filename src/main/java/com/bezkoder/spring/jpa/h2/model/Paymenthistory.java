@@ -13,8 +13,8 @@ public class Paymenthistory {
 //  
   
 
-  @Column(name = "exp_date")
-  private String date;
+//  @Column(name = "exp_date")
+//  private String date;
 
   
   @Column(name = "exp_amount")
@@ -36,13 +36,13 @@ public class Paymenthistory {
 //
 
 
-public String getDate() {
-	return date;
-}
-
-public void setDate(String date) {
-	this.date = date;
-}
+//public String getDate() {
+//	return date;
+//}
+//
+//public void setDate(String date) {
+//	this.date = date;
+//}
 
 public long getAmount() {
 	return amount;
@@ -62,7 +62,7 @@ public void setUser(long user) {
 
 @Override
 public String toString() {
-	return "Paymenthistory [ date=" + date + ", amount=" + amount
+	return "Paymenthistory [ amount=" + amount
 			+ ", user_id=" + user+ "]";
 }
   

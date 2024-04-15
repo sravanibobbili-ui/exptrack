@@ -28,7 +28,7 @@ public class Account {
   private long balance;
   
   @Column(name = "user_id")
-  private  long user_id;
+  private  long userId;
   
   
   public long getAcct_num() {
@@ -42,11 +42,11 @@ public void setAcct_num(long acct_num) {
 
 
 public long getUser_id() {
-	return user_id;
+	return userId;
 }
 
 public void setUser_id(long user_id) {
-	this.user_id = user_id;
+	this.userId = user_id;
 }
 
 public Account() {
@@ -111,7 +111,7 @@ public void setBalance(long balance) {
 @Override
 public String toString() {
 	return "Account [acct_id=" + acct_id + ", acct_num=" + acct_num + ", acc_bank_name=" + acc_bank_name
-			+ ", payment_mode=" + payment_mode + ", branch=" + branch + ", balance=" + balance + ", user_id=" + user_id
+			+ ", payment_mode=" + payment_mode + ", branch=" + branch + ", balance=" + balance + ", user_id=" + userId
 			+ "]";
 }
 

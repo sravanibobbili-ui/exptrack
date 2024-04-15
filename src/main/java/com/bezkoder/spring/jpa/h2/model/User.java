@@ -30,17 +30,6 @@ public class User {
   @Column(name = "email")
   private String email;
   
-//  @OneToOne(cascade = CascadeType.ALL)
-//  @JoinColumn(name = "acct_id")
-//  private Account account;
-  
-//  @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
-//  private Set<Expenses> expenses;
-//  
-//  @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
-//  private Paymenthistory payment;
-//  @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
-//  private Set<Account> account;
 
 public User() {
 
@@ -105,14 +94,6 @@ public String getEmail() {
 public void setEmail(String email) {
 	this.email = email;
 }
-//public Account getAccount() {
-//	return account;
-//}
-//
-//public void setAccount(Account account) {
-//	this.account = account;
-//}
-
 
 
 @Override

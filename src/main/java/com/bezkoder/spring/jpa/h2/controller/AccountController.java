@@ -54,48 +54,59 @@ public class AccountController {
 	      return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
 	    }
 	  }
-//	@GetMapping("/account/{acctid}")
-//	  public ResponseEntity<Account> getUserById(@PathVariable("acctid") long id) {
-//	    
-//	    Optional<Account> actList = AccountRepository.findById(id);
-//	    if (actList.isPresent()) {
-//	      return new ResponseEntity<>(actList.get(), HttpStatus.OK);
-//	    } else {
-//	      return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-//	    }
-//	  }
-	@GetMapping("/account/{userId}")
-	  public ResponseEntity<List<Map<String, Object>>> getExpensesByUserId(@PathVariable("userId") long userId) {
-	      List<Object[]> AcctData = AccountRepository.findByUserId(userId);
-	      List<Map<String, Object>> response = new ArrayList<>();
+	@PostMapping("/addaccount")
+    public ResponseEntity<Account> createAccount(@RequestBody Account accountRequest) {
+        try {
+            // Create a new Account entity from the request data
+            Account account = new Account();
+            account.setAcc_bank_name(accountRequest.getAcc_bank_name());
+            account.setPayment_mode(accountRequest.getPayment_mode());
+            account.setBranch(accountRequest.getBranch());
+            account.setBalance(accountRequest.getBalance());
+            account.setUser_id(accountRequest.getUser_id());
+            account.setAcct_num(accountRequest.getAcct_num());
 
-	      if (!AcctData.isEmpty()) {
-	          for (Object[] pair : AcctData) {
-	              Map<String, Object> keyValueMap = new LinkedHashMap<>();
-	              keyValueMap.put("acct_num", pair[0]);
-	              keyValueMap.put("acct_bank_name", pair[1]);
-	              keyValueMap.put("payment_mode", pair[2]);
-	              keyValueMap.put("branch", pair[3]);
-	              keyValueMap.put("balance", pair[4]);
-	              keyValueMap.put("user_id", userId);
-	              response.add(keyValueMap);
-	          }
-	          
-	          // Print key-value pairs in the console
-	          for (Map<String, Object> keyValueMap : response) {
-	              System.out.println("Expense Data:");
-	              for (Map.Entry<String, Object> entry : keyValueMap.entrySet()) {
-	                  System.out.println(entry.getKey() + ": " + entry.getValue());
-	              }
-	              System.out.println(); // Add a newline for better readability
-	          }
-	          
-	          return new ResponseEntity<>(response, HttpStatus.OK);
-	      } else {
-	          return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-	      }
-	  }
-	  
-	
+            // Save the account using the repository
+            Account createdAccount = AccountRepository.save(account);
+
+            return new ResponseEntity<>(createdAccount, HttpStatus.CREATED);
+        } catch (Exception e) {
+            // If an error occurs, return an internal server error response
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+	@GetMapping("/account/{userId}")
+	public ResponseEntity<List<Map<String, Object>>> getAccountsByUserId(@PathVariable("userId") long userId) {
+	    List<Account> accounts = AccountRepository.findByUserId(userId);
+	    List<Map<String, Object>> response = new ArrayList<>();
+
+	    if (!accounts.isEmpty()) {
+	        for (Account account : accounts) {
+	            Map<String, Object> accountMap = new LinkedHashMap<>();
+	            accountMap.put("acct_num", account.getAcct_num());
+	            accountMap.put("acct_bank_name", account.getAcc_bank_name());
+	            accountMap.put("payment_mode", account.getPayment_mode());
+	            accountMap.put("branch", account.getBranch());
+	            accountMap.put("balance", account.getBalance());
+	            accountMap.put("user_id", account.getUser_id());
+	            response.add(accountMap);
+	        }
+	        
+	        // Print key-value pairs in the console
+	        for (Map<String, Object> accountMap : response) {
+	            System.out.println("Account Data:");
+	            for (Map.Entry<String, Object> entry : accountMap.entrySet()) {
+	                System.out.println(entry.getKey() + ": " + entry.getValue());
+	            }
+	            System.out.println(); // Add a newline for better readability
+	        }
+	        
+	        return new ResponseEntity<>(response, HttpStatus.OK);
+	    } else {
+	        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+	    }
+	}
+
 
 	}

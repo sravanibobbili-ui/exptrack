@@ -10,8 +10,8 @@ import com.bezkoder.spring.jpa.h2.model.User;
 
 public interface UserRepository extends JpaRepository<User, Long> {
 	
-	@Query("SELECT u.user_id,u.username,u.password FROM User u WHERE u.username = :username")
+	@Query("SELECT u.user_id,u.username,u.password FROM User u WHERE u.email = :email")
 //    List<Object[]> findByUsername(@Param("username") String username);
 
-	List<Object[]> findByUsername(@Param("username")String username);
+	List<Object[]> findByUsername(@Param("email")String email);
 }

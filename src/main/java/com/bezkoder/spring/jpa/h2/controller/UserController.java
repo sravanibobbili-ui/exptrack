@@ -85,9 +85,9 @@ public class UserController {
   }
 
 
-@GetMapping("/user/{username}")
-public ResponseEntity<List<Map<String, Object>>> getUsername(@PathVariable("username") String username) {
-    List<Object[]> users = userRepository.findByUsername(username);
+@GetMapping("/user/{email}")
+public ResponseEntity<List<Map<String, Object>>> getUsername(@PathVariable("email") String email) {
+    List<Object[]> users = userRepository.findByUsername(email);
     List<Map<String, Object>> response = new ArrayList<>();
 
     if (!users.isEmpty()) {
@@ -120,11 +120,17 @@ public ResponseEntity<User> updateUser(@PathVariable("id") long id, @RequestBody
 
   if (userData.isPresent()) {
     User _user = userData.get();
-    _user.setUsername(user.getUsername());
-    _user.setPassword(user.getPassword());
-    _user.setEmail(user.getEmail());
-    _user.setFirstname(user.getFirst_name());
-    _user.setLastname(user.getLast_name());
+    
+    // Update fields based on the provided user object
+    if (user.getUsername() != null && !user.getUsername().isEmpty()) {
+      _user.setUsername(user.getUsername());
+    }
+    if (user.getPassword() != null && !user.getPassword().isEmpty()) {
+      _user.setPassword(user.getPassword());
+    }
+    // Add conditions for other fields as needed
+
+    // Save the updated user object
     return new ResponseEntity<>(userRepository.save(_user), HttpStatus.OK);
   } else {
     return new ResponseEntity<>(HttpStatus.NOT_FOUND);

@@ -134,9 +134,9 @@ public class ExpensesController {
       }
   }
   
-  // sum the exp-amount
-//  @GetMapping("/exp/{userId}")
-//  public ResponseEntity<Map<String, Object>> getExpensesByUserId(@PathVariable("userId") long userId) {
+//   sum the exp-amount
+//  @GetMapping("/totalexp/{userId}")
+//  public ResponseEntity<Map<String, Object>> getExpenseByUserId(@PathVariable("userId") long userId) {
 //      List<Object[]> expensesData = expRepository.findByUserId(userId);
 //      Map<String, Object> response = new HashMap<>();
 //
@@ -181,9 +181,9 @@ public class ExpensesController {
 //	    }
 //	}
   
-  @GetMapping("/exp/{userId}/{date}")
-  public ResponseEntity<Map<String, Object>> getExpensesByUserId(@PathVariable("userId") long userId,@PathVariable("date") String date) {
-      List<Object[]> expensesData = expRepository.findByuserId(userId,date);
+  @GetMapping("/totalexp/{userId}")
+  public ResponseEntity<Map<String, Object>> getExpensesByUserId1(@PathVariable("userId") long userId) {
+      List<Object[]> expensesData = expRepository.findByUserId(userId);
       Map<String, Object> response = new HashMap<>();
 
       if (!expensesData.isEmpty()) {
@@ -209,8 +209,8 @@ public class ExpensesController {
              System.out.println(entry.getKey() + ": " + entry.getValue());
          }
           System.out.println(); // Add a newline for better readability
-       paymentService.updatePaymentHistory(userId, totalExpenses,date);
-//       paymentService.getAccount(userId);
+       paymentService.updatePaymentHistory(userId, totalExpenses);
+//      paymentService.getAccount(userId);
           return new ResponseEntity<>(response, HttpStatus.OK);
          
           
@@ -218,41 +218,66 @@ public class ExpensesController {
           return new ResponseEntity<>(HttpStatus.NOT_FOUND);
       }
   }
+//  
+//  @GetMapping("/account/{userId}")
+//  public ResponseEntity<Map<String, Object>> getAccountDetails(@PathVariable("userId") long userId) {
+//      Map<String, Object> accountDetails = new HashMap<>();
+//
+//      // Retrieve the account balance by user ID
+//      List<Account> balanceList = AccountRepository.findByUserId(userId);
+//      Optional<Paymenthistory> paymentHistoryOptional = paymentRepository.findByUserId(userId);
+//
+//      if (!balanceList.isEmpty() && paymentHistoryOptional.isPresent()) {
+//          Object[] accountData = balanceList.get(0);
+//          double balance = ((Number) accountData[0]).doubleValue(); // Assuming balance is at index 0
+//
+//          // Calculate total expenses from payment history
+//          Paymenthistory paymentHistory = paymentHistoryOptional.get();
+//          double totalExpenses = paymentHistory.getAmount();
+//
+//          double remainingBalance = balance - totalExpenses;
+//
+//          accountDetails.put("balance", balance);
+//          accountDetails.put("totalExpenses", totalExpenses);
+//          accountDetails.put("remainingBalance", remainingBalance);
+//
+//          return new ResponseEntity<>(accountDetails, HttpStatus.OK);
+//      } else {
+//          return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+//      }
+//  }
+//
   
   @GetMapping("/account/{userId}")
   public ResponseEntity<Map<String, Object>> getAccountDetails(@PathVariable("userId") long userId) {
       Map<String, Object> accountDetails = new HashMap<>();
-      
-      // Retrieve the account by user ID
-      Optional<Account> accountOptional = AccountRepository.findById(userId);
-      Optional<Paymenthistory> paymentOptional = paymentRepository.findById(userId);
-      
-      if (accountOptional.isPresent() && paymentOptional.isPresent()) {
-          Account account = accountOptional.get();
-          Paymenthistory payment = paymentOptional.get();
-          
-          double balance = account.getBalance();
-          double expense = payment.getAmount();
-          System.out.println(balance);
-          double remainingBalance = 0;
-          if (balance > expense) {
-              remainingBalance = balance - expense;
+
+      // Retrieve the account balance by user ID
+      List<Account> accounts = AccountRepository.findByUserId(userId);
+      if (!accounts.isEmpty()) {
+          double totalBalance = 0;
+          for (Account account : accounts) {
+              totalBalance += account.getBalance();
           }
-          
-          accountDetails.put("balance", balance);
-          accountDetails.put("expense", expense);
+
+          // Get total expenses from payment history (assuming you have a repository for PaymentHistory)
+          Optional<Paymenthistory> paymentHistoryOptional = paymentRepository.findByUserId(userId);
+          double totalExpenses = paymentHistoryOptional.map(Paymenthistory::getAmount).orElse((long) 0.0);
+
+          double remainingBalance = totalBalance - totalExpenses;
+
+          accountDetails.put("totalBalance", totalBalance);
+//          accountDetails.put("totalExpenses", totalExpenses);
           accountDetails.put("remainingBalance", remainingBalance);
-          
+
           return new ResponseEntity<>(accountDetails, HttpStatus.OK);
       } else {
           return new ResponseEntity<>(HttpStatus.NOT_FOUND);
       }
   }
 
-  
-  
- 
-  }
+
+ }
   
   
 

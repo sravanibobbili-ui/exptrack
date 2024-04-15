@@ -51,13 +51,7 @@ public class Expenses {
 	  @Column(name = "date")
 	  private String date;
 	 
-//	  @ManyToOne(cascade = CascadeType.ALL)
-//	  @JoinColumn(name = "user_id")
-//	  private User user;
-//
-//	  @ManyToOne(cascade = CascadeType.ALL)
-//	  @JoinColumn(name = "exp_cat")
-//	  private Expense_category exp_cat;
+
 	  
 	
 	  
@@ -84,27 +78,6 @@ public class Expenses {
 		this.exp_id = exp_id;
 	}
 
-	
-
-	
-
-//	public User getUser() {
-//		return user;
-//	}
-//
-//	public void setUser(User user) {
-//		this.user = user;
-//	}
-//
-//	
-//	
-//	public Expense_category getExp_cat() {
-//		return exp_cat;
-//	}
-//
-//	public void setExp_cat(Expense_category exp_cat) {
-//		this.exp_cat = exp_cat;
-//	}
 
 	public long getAmount() {
 		return amount;
@@ -122,15 +95,6 @@ public class Expenses {
 		this.date = date;
 	}
 
-	
-
-
-
-//	@Override
-//	public String toString() {
-//		return "Expenses [exp_id=" + exp_id + ", user_id=" + user + ", exp_Cat_id=" + exp_cat + ", amount="
-//				+ amount + ", date=" + date + "]";
-//	}
 
 	@Override
 	public String toString() {
