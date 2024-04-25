@@ -32,7 +32,7 @@ import com.bezkoder.spring.jpa.h2.model.Paymenthistory;
 import com.bezkoder.spring.jpa.h2.model.Tutorial;
 
 //@CrossOrigin(origins = "http://localhost:8081")
-@CrossOrigin(origins = "http://3.143.24.234:5174")
+@CrossOrigin(origins = "http://3.144.106.139:5174")
 @RestController
 @RequestMapping("/api")
 public class UserController {
